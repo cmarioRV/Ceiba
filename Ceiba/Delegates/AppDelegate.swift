@@ -15,9 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     static var diContainer = Container()
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool
+    {
+        if(ProcessInfo.processInfo.environment["TEST"] == nil) {
+            DatabaseManager.setup(storageContext: CoreDataStorageContext(configuration: .inMemory(identifier: "Ceiba")))
+        } else {
+            DatabaseManager.setup(storageContext: CoreDataStorageContext())
+        }
         
         return true
     }

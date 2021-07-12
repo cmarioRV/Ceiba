@@ -8,6 +8,7 @@ target 'Ceiba' do
   # Pods for Ceiba
   pod 'Swinject'
   pod 'Alamofire', '~> 5.4'
+  pod 'Runtime'
 
   target 'CeibaTests' do
     inherit! :search_paths

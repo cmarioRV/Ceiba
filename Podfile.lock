@@ -1,20 +1,24 @@
 PODS:
   - Alamofire (5.4.1)
+  - Runtime (2.2.2)
   - Swinject (2.7.1)
 
 DEPENDENCIES:
   - Alamofire (~> 5.4)
+  - Runtime
   - Swinject
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Runtime
     - Swinject
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  Runtime: 67741bd196fb4ad821c4d259ccc527bf734d8806
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
 
-PODFILE CHECKSUM: af014fe84fda2fa4317910bbdd7b9197d288de59
+PODFILE CHECKSUM: ea5d45cb5ada694cc1bbd645c5d4a96d67fa20bf
 
 COCOAPODS: 1.10.1

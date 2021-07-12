@@ -9,11 +9,14 @@ import Foundation
 
 internal protocol UserViewModelInputs {
     func getUsers()
+    func getUsersFromDB()
+    func saveUser(_ user: User)
 }
 
 internal protocol UserViewModelOutputs {
     var users: Dynamic<[User]?> { get }
     var error: Dynamic<Error?> { get }
+    var isBussy: Dynamic<Bool> { get }
 }
 
 internal protocol UserViewModelType {
@@ -28,21 +31,44 @@ internal final class UserViewModel: UserViewModelType, UserViewModelInputs, User
     
     var users = Dynamic<[User]?>(nil)
     var error = Dynamic<Error?>(nil)
+    var isBussy = Dynamic(false)
     
-    let userRepository: UserRepository
+    let userService: UserService
+    let databaseService: DatabaseService
     
-    init(userRepository: UserRepository) {
-        self.userRepository = userRepository
+    init(userService: UserService, databaseService: DatabaseService) {
+        self.userService = userService
+        self.databaseService = databaseService
+    }
+    
+    func saveUser(_ user: User) {
+        databaseService.saveUser(user: user)
     }
     
     func getUsers() {
-        userRepository.getUsers { [weak self] users, err in
-            guard let users = users else {
-                self?.error.value = err
-                return
+        if isBussy.value { return }
+        isBussy.value = true
+        
+        let usersFetched = databaseService.getUsers()
+        if(usersFetched.count == 0) {
+            userService.getUsers { [weak self] users, err in
+                guard let users = users else {
+                    self?.error.value = err
+                    self?.isBussy.value = false
+                    return
+                }
+                
+                self?.databaseService.saveUsers(users)
+                self?.users.value = users
             }
-            
-            self?.users.value = users
+        } else {
+            users.value = usersFetched
         }
+        
+        isBussy.value = false
+    }
+    
+    func getUsersFromDB() {
+        users.value = databaseService.getUsers()
     }
 }

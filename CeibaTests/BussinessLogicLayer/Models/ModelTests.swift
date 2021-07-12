@@ -19,15 +19,38 @@ class ModelTests: XCTestCase {
     }
 
     func testUser_Init_Successful() {
-        let sut = User(id: 1, name: "name", username: "username", email: "email", address: nil, phone: "phone", website: "website", company: nil)
-        XCTAssert(sut.id == 1)
+        let geo = Geo()
+        geo.lat = "12.04"
+        geo.lng = "-75.8"
+        
+        let address = Address()
+        address.city = "Medellin"
+        address.street = "33"
+        address.suite = "1"
+        address.zipcode = "005"
+        address.geo = geo
+        
+        let company = Company()
+        company.name = "OA"
+        company.catchPhrase = "test"
+        company.bs = "1"
+        
+        let sut = User()
+        sut.id = 0
+        sut.name = "name"
+        sut.address = address
+        sut.company = company
+        sut.email = "email"
+        sut.phone = "phone"
+        sut.username = "username"
+        sut.website = "website"
+        
+        XCTAssert(sut.id == 0)
         XCTAssert(sut.name == "name")
         XCTAssert(sut.username == "username")
         XCTAssert(sut.email == "email")
-        XCTAssert(sut.address == nil)
         XCTAssert(sut.phone == "phone")
         XCTAssert(sut.website == "website")
-        XCTAssert(sut.company == nil)
     }
     
     func testErrorModel_Init_Success() {
@@ -37,33 +60,44 @@ class ModelTests: XCTestCase {
     }
     
     func testAddress_Init_Success() {
-        let sut = Address(street: "street", suite: "suite", city: "city", zipcode: "zipcode", geo: nil, phone: "phone", website: "website", company: nil)
+        let sut = Address()
+        sut.city = "city"
+        sut.street = "street"
+        sut.suite = "suite"
+        sut.zipcode = "zipcode"
         
         XCTAssert(sut.street == "street")
         XCTAssert(sut.suite == "suite")
         XCTAssert(sut.city == "city")
         XCTAssert(sut.zipcode == "zipcode")
-        XCTAssert(sut.geo == nil)
-        XCTAssert(sut.phone == "phone")
-        XCTAssert(sut.website == "website")
-        XCTAssert(sut.company == nil)
     }
     
     func testGeo_Init_Success() {
-        let sut = Geo(lat: "-37.312", lng: "61.454")
-        XCTAssert(sut.lat == "-37.312")
-        XCTAssert(sut.lng == "61.454")
+        let sut = Geo()
+        sut.lat = "12.04"
+        sut.lng = "-75.8"
+        
+        XCTAssert(sut.lat == "12.04")
+        XCTAssert(sut.lng == "-75.8")
     }
     
     func testCompany_Init_Success() {
-        let sut = Company(name: "name", catchPhrase: "catchPhrase", bs: "bs")
+        let sut = Company()
+        sut.name = "name"
+        sut.catchPhrase = "catchPhrase"
+        sut.bs = "bs"
+        
         XCTAssert(sut.name == "name")
         XCTAssert(sut.catchPhrase == "catchPhrase")
         XCTAssert(sut.bs == "bs")
     }
     
     func testPost_Init_Success() {
-        let sut = Post(userId: 1, id: 1, title: "title", body: "body")
+        let sut = Post()
+        sut.id = 1
+        sut.userId = 1
+        sut.title = "title"
+        sut.body = "body"
         XCTAssert(sut.userId == 1)
         XCTAssert(sut.id == 1)
         XCTAssert(sut.title == "title")

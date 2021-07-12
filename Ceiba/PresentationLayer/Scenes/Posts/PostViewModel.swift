@@ -29,14 +29,14 @@ internal final class PostViewModel: PostViewModelType, PostViewModelInputs, Post
     var posts = Dynamic<[Post]?>(nil)
     var error = Dynamic<Error?>(nil)
     
-    let postRepository: PostRepository
+    let postService: PostService
     
-    init(postRepository: PostRepository) {
-        self.postRepository = postRepository
+    init(postService: PostService) {
+        self.postService = postService
     }
     
     func getPosts() {
-        postRepository.getPosts { [weak self] posts, err in
+        postService.getPosts { [weak self] posts, err in
             guard let posts = posts else {
                 self?.error.value = err
                 return
