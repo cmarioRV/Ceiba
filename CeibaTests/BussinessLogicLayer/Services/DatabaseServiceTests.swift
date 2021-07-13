@@ -11,7 +11,7 @@ import XCTest
 class DatabaseServiceTests: XCTestCase {
 
     override func setUpWithError() throws {
-        AppDelegate.diContainer.registerDependencies()
+        SceneDelegate.diContainer.registerDependencies(rootViewController: UINavigationController())
     }
 
     override func tearDownWithError() throws {
@@ -19,12 +19,12 @@ class DatabaseServiceTests: XCTestCase {
     }
 
     func testDatabaseRepository_GetDependency_ReturnSuccess() {
-        let sut = AppDelegate.diContainer.resolve(DatabaseService.self)
+        let sut = SceneDelegate.diContainer.resolve(DatabaseService.self)
         XCTAssertNotNil(sut)
     }
     
     func testSaveUser_ValidUser_ReturnSuccess() {
-        let sut = AppDelegate.diContainer.resolve(DatabaseService.self)
+        let sut = SceneDelegate.diContainer.resolve(DatabaseService.self)
         
         let geo = Geo()
         geo.lat = "12.04"

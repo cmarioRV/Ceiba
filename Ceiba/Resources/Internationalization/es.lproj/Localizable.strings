@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  Ceiba
+
+  Created by Mario Rúa on 12/07/21.
+  
+*/
+
+"see_posts" = "Ver publicaciones";
+"error_title" = "¡Ups!";
+"error_description" = "Se supone que no pasara esto";
+"entry_name" = "Ingresa un nombre";

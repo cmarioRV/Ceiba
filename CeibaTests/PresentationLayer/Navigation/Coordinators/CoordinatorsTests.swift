@@ -11,7 +11,7 @@ import XCTest
 class CoordinatorsTests: XCTestCase {
 
     override func setUpWithError() throws {
-        AppDelegate.diContainer.registerDependencies()
+        SceneDelegate.diContainer.registerDependencies(rootViewController: UINavigationController())
     }
 
     override func tearDownWithError() throws {
@@ -19,7 +19,7 @@ class CoordinatorsTests: XCTestCase {
     }
 
     func testAppCoordinator_Resolve_ReturnSuccess() {
-        let sut = AppDelegate.diContainer.resolve(AppCoordinator.self)
+        let sut = SceneDelegate.diContainer.resolve(AppCoordinator.self)
         XCTAssertNotNil(sut)
     }
 }

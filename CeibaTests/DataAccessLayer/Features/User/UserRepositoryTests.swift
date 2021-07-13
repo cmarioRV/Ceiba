@@ -11,7 +11,7 @@ import XCTest
 class UserRepositoryTests: XCTestCase {
 
     override func setUpWithError() throws {
-        AppDelegate.diContainer.registerDependencies()
+        SceneDelegate.diContainer.registerDependencies(rootViewController: UINavigationController())
     }
 
     override func tearDownWithError() throws {
@@ -19,12 +19,12 @@ class UserRepositoryTests: XCTestCase {
     }
 
     func testUserRepository_GetDependency_ReturnSuccessful() {
-        let sut = AppDelegate.diContainer.resolve(UserRepository.self)
+        let sut = SceneDelegate.diContainer.resolve(UserRepository.self)
         XCTAssertNotNil(sut)
     }
     
     func testUserRepository_GetUsers_ReturnSuccessful() {
-        let sut = AppDelegate.diContainer.resolve(UserRepository.self)
+        let sut = SceneDelegate.diContainer.resolve(UserRepository.self)
         let expectation = expectation(description: "Fetch correctly users from web service")
         var usersResult: [User]?
         var errorResult: Error?

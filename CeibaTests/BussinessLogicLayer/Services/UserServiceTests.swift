@@ -11,7 +11,7 @@ import XCTest
 class UserServiceTests: XCTestCase {
 
     override func setUpWithError() throws {
-        AppDelegate.diContainer.registerDependencies()
+        SceneDelegate.diContainer.registerDependencies(rootViewController: UINavigationController())
     }
 
     override func tearDownWithError() throws {
@@ -19,12 +19,12 @@ class UserServiceTests: XCTestCase {
     }
     
     func testUserService_GetDependency_ReturnSuccess() {
-        let sut = AppDelegate.diContainer.resolve(UserService.self)
+        let sut = SceneDelegate.diContainer.resolve(UserService.self)
         XCTAssertNotNil(sut)
     }
 
     func testUserService_FetchUsers_ReturnSuccessful() {
-        let sut = AppDelegate.diContainer.resolve(UserService.self)
+        let sut = SceneDelegate.diContainer.resolve(UserService.self)
         let expectation = expectation(description: "Fetch users successfully")
         var userResult: [User]?
         var errorResult: Error?

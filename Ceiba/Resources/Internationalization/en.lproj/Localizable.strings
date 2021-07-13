@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  Ceiba
+
+  Created by Mario Rúa on 12/07/21.
+  
+*/
+
+"see_posts" = "See Posts";
+"error_title" = "¡Ups!";
+"error_description" = "It's supposed to this wouldn't happen";
+"entry_name" = "Entry a name";

@@ -11,7 +11,7 @@ import XCTest
 class ApiManagerTests: XCTestCase {
 
     override func setUpWithError() throws {
-        AppDelegate.diContainer.registerDependencies()
+        SceneDelegate.diContainer.registerDependencies(rootViewController: UINavigationController())
     }
 
     override func tearDownWithError() throws {
@@ -19,7 +19,7 @@ class ApiManagerTests: XCTestCase {
     }
 
     func testGetUsers_Init_Success() {
-        let sut = AppDelegate.diContainer.resolve(ApiManager.self)
+        let sut = SceneDelegate.diContainer.resolve(ApiManager.self)
         XCTAssertNotNil(sut)
     }
 }

@@ -19,6 +19,6 @@ class DITests: XCTestCase {
     }
 
     func testContainer_GetContainer_ReturnSuccess() {
-        XCTAssertNotNil(AppDelegate.diContainer)
+        XCTAssertNotNil(SceneDelegate.diContainer)
     }
 }

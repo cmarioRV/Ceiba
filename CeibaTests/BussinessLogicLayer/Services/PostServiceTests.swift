@@ -11,7 +11,7 @@ import XCTest
 class PostServiceTests: XCTestCase {
 
     override func setUpWithError() throws {
-        AppDelegate.diContainer.registerDependencies()
+        SceneDelegate.diContainer.registerDependencies(rootViewController: UINavigationController())
     }
 
     override func tearDownWithError() throws {
@@ -19,12 +19,12 @@ class PostServiceTests: XCTestCase {
     }
 
     func testPostService_GetDependency_ReturnSuccess() {
-        let sut = AppDelegate.diContainer.resolve(PostService.self)
+        let sut = SceneDelegate.diContainer.resolve(PostService.self)
         XCTAssertNotNil(sut)
     }
     
     func testPostService_FetchPost_ReturnSuccessful() {
-        let sut = AppDelegate.diContainer.resolve(PostService.self)
+        let sut = SceneDelegate.diContainer.resolve(PostService.self)
         let expectation = expectation(description: "Fetch posts successfully")
         var postsResult: [Post]?
         var errorResult: Error?
@@ -42,7 +42,7 @@ class PostServiceTests: XCTestCase {
     }
     
     func testPostService_FetchPostByUser_ReturnSuccessful() {
-        let sut = AppDelegate.diContainer.resolve(PostService.self)
+        let sut = SceneDelegate.diContainer.resolve(PostService.self)
         let expectation = expectation(description: "Fetch posts by user successfully")
         var postsResult: [Post]?
         var errorResult: Error?

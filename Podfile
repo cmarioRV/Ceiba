@@ -9,6 +9,7 @@ target 'Ceiba' do
   pod 'Swinject'
   pod 'Alamofire', '~> 5.4'
   pod 'Runtime'
+  pod 'MBProgressHUD', '~> 1.2.0'
 
   target 'CeibaTests' do
     inherit! :search_paths

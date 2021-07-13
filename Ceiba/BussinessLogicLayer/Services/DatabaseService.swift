@@ -30,6 +30,10 @@ class DatabaseService {
         return DatabaseManager.shared.userDao.findById(id: id)
     }
     
+    func searchUser(name: String) -> [User] {
+        return DatabaseManager.shared.userDao.fetch(predicate: NSPredicate(format: "(name BEGINSWITH %@) OR (name CONTAINS %@)", name, name))
+    }
+    
     func getUsers() -> [User] {
         DatabaseManager.shared.userDao.findAll()
     }

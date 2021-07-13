@@ -9,11 +9,13 @@ import Foundation
 
 internal protocol PostViewModelInputs {
     func getPosts()
+    func getPostsByUser(_ userId: Int)
 }
 
 internal protocol PostViewModelOutputs {
-    var posts: Dynamic<[Post]?> { get }
+    var cellViewModels: Dynamic<[PostCellViewModel]> { get }
     var error: Dynamic<Error?> { get }
+    var isBussy: Dynamic<Bool> { get }
 }
 
 internal protocol PostViewModelType {
@@ -26,8 +28,9 @@ internal final class PostViewModel: PostViewModelType, PostViewModelInputs, Post
     var inputs: PostViewModelInputs { return self }
     var outputs: PostViewModelOutputs { return self }
     
-    var posts = Dynamic<[Post]?>(nil)
     var error = Dynamic<Error?>(nil)
+    var cellViewModels = Dynamic<[PostCellViewModel]>([PostCellViewModel]())
+    var isBussy = Dynamic(false)
     
     let postService: PostService
     
@@ -36,13 +39,49 @@ internal final class PostViewModel: PostViewModelType, PostViewModelInputs, Post
     }
     
     func getPosts() {
+        if isBussy.value { return }
+        isBussy.value = true
         postService.getPosts { [weak self] posts, err in
+            
+            guard let weakSelf = self else { return }
+            
             guard let posts = posts else {
-                self?.error.value = err
+                weakSelf.error.value = err
+                weakSelf.isBussy.value = false
                 return
             }
             
-            self?.posts.value = posts
+            weakSelf.cellViewModels.value = weakSelf.buildCellViewModels(posts)
+            weakSelf.isBussy.value = false
         }
+    }
+    
+    func getPostsByUser(_ userId: Int) {
+        if isBussy.value { return }
+        isBussy.value = true
+        postService.getPostsByUser(userId: userId) { [weak self] posts, err in
+            
+            guard let weakSelf = self else { return }
+            
+            guard let posts = posts else {
+                self?.error.value = err
+                weakSelf.isBussy.value = false
+                return
+            }
+            
+            weakSelf.cellViewModels.value = weakSelf.buildCellViewModels(posts)
+            weakSelf.isBussy.value = false
+        }
+    }
+    
+    private func buildCellViewModels(_ posts: [Post]) -> [PostCellViewModel] {
+        var viewModels = [PostCellViewModel]()
+        
+        for post in posts {
+            let cellViewModel = PostCellViewModel(userId: post.userId, id: post.id, title: post.title, body: post.body)
+            viewModels.append(cellViewModel)
+        }
+        
+        return viewModels
     }
 }

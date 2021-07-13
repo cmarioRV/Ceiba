@@ -11,10 +11,11 @@ internal protocol UserViewModelInputs {
     func getUsers()
     func getUsersFromDB()
     func saveUser(_ user: User)
+    func search(name: String)
 }
 
 internal protocol UserViewModelOutputs {
-    var users: Dynamic<[User]?> { get }
+    var cellViewModels: Dynamic<[UserCellViewModel]> { get }
     var error: Dynamic<Error?> { get }
     var isBussy: Dynamic<Bool> { get }
 }
@@ -29,7 +30,7 @@ internal final class UserViewModel: UserViewModelType, UserViewModelInputs, User
     var inputs: UserViewModelInputs { return self }
     var outputs: UserViewModelOutputs { return self }
     
-    var users = Dynamic<[User]?>(nil)
+    var cellViewModels = Dynamic<[UserCellViewModel]>([UserCellViewModel]())
     var error = Dynamic<Error?>(nil)
     var isBussy = Dynamic(false)
     
@@ -52,23 +53,49 @@ internal final class UserViewModel: UserViewModelType, UserViewModelInputs, User
         let usersFetched = databaseService.getUsers()
         if(usersFetched.count == 0) {
             userService.getUsers { [weak self] users, err in
+                
+                guard let weakSelf = self else { return }
+                
                 guard let users = users else {
-                    self?.error.value = err
-                    self?.isBussy.value = false
+                    weakSelf.error.value = err
+                    weakSelf.isBussy.value = false
                     return
                 }
                 
-                self?.databaseService.saveUsers(users)
-                self?.users.value = users
+                weakSelf.databaseService.saveUsers(users)
+                weakSelf.cellViewModels.value = weakSelf.buildCellViewModels(users)
             }
         } else {
-            users.value = usersFetched
+            cellViewModels.value = buildCellViewModels(usersFetched)
         }
         
         isBussy.value = false
     }
     
+    func search(name: String) {
+        if name == "" {
+            getUsers()
+            return
+        }
+        if name.count <= 2 { return }
+        if isBussy.value { return }
+        isBussy.value = true
+        cellViewModels.value = buildCellViewModels(databaseService.searchUser(name: name))
+        isBussy.value = false
+    }
+    
     func getUsersFromDB() {
-        users.value = databaseService.getUsers()
+        cellViewModels.value = buildCellViewModels(databaseService.getUsers())
+    }
+    
+    private func buildCellViewModels(_ users: [User]) -> [UserCellViewModel] {
+        var viewModels = [UserCellViewModel]()
+        
+        for user in users {
+            let cellViewModel = UserCellViewModel(userId: user.id, title: user.name, phone: user.phone ?? "", email: user.email)
+            viewModels.append(cellViewModel)
+        }
+        
+        return viewModels
     }
 }

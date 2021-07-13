@@ -1,24 +1,28 @@
 PODS:
   - Alamofire (5.4.1)
+  - MBProgressHUD (1.2.0)
   - Runtime (2.2.2)
   - Swinject (2.7.1)
 
 DEPENDENCIES:
   - Alamofire (~> 5.4)
+  - MBProgressHUD (~> 1.2.0)
   - Runtime
   - Swinject
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - MBProgressHUD
     - Runtime
     - Swinject
 
 SPEC CHECKSUMS:
   Alamofire: 2291f7d21ca607c491dd17642e5d40fdcda0e65c
+  MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
   Runtime: 67741bd196fb4ad821c4d259ccc527bf734d8806
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
 
-PODFILE CHECKSUM: ea5d45cb5ada694cc1bbd645c5d4a96d67fa20bf
+PODFILE CHECKSUM: 61dccbf9aff1098d87e7c113dab5de11b4d10b56
 
 COCOAPODS: 1.10.1
